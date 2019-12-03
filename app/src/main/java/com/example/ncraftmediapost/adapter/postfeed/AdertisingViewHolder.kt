@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ncraftmediapost.R
 import com.example.ncraftmediapost.dto.Post
 import kotlinx.android.synthetic.main.advertising_list_item.view.*
+import kotlinx.android.synthetic.main.post_list_item.*
 import kotlinx.android.synthetic.main.post_list_item.view.*
 import kotlinx.android.synthetic.main.post_list_item.view.author_text
 import kotlinx.android.synthetic.main.post_list_item.view.btn_image_chat
@@ -79,7 +80,10 @@ class AdertisingViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(ad
             if (post.likedByMe) {
 
                 btn_image_like.setImageResource(R.drawable.ic_favorite_red_24dp)
-                like_text.setTextColor(0xFF0000)
+              //  like_text.setTextColor(0xFF0000)
+                countLike++
+                like_text.text = countLike.toString()
+
             } else {
                 btn_image_like.setImageResource(R.drawable.ic_favorite_inactive_24dp)
                 like_text.setTextColor(0x999)

@@ -30,23 +30,23 @@ class PostAdapter(val list: List<Post>) : RecyclerView.Adapter<RecyclerView.View
                     false
                 )
             )
-            VIEW_TYPE_REPOST -> PostViewHolder(
+            VIEW_TYPE_REPOST -> VideoViewHolder(
             this, LayoutInflater.from(parent.context).inflate(
                 R.layout.repost_list_item,
                 parent,
                 false
             )
         )
-            VIEW_TYPE_REPLY -> PostViewHolder(
+            VIEW_TYPE_REPLY -> RepostViewHolder(
                 this, LayoutInflater.from(parent.context).inflate(
-                    R.layout.replyt_list_item,
+                    R.layout.reply_list_item,
                     parent,
                     false
                 )
             )
-            VIEW_TYPE_VIDEO -> PostViewHolder(
+            VIEW_TYPE_VIDEO -> ReplyViewHolder(
                 this, LayoutInflater.from(parent.context).inflate(
-                    R.layout.video_youtube_list_item,
+                    R.layout.video_youtube_item,
                     parent,
                     false
                 )

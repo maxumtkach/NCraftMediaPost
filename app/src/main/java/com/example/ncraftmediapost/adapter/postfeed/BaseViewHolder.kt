@@ -1,5 +1,6 @@
 package com.example.ncraftmediapost.adapter.postfeed
 
+import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ncraftmediapost.dto.Post
