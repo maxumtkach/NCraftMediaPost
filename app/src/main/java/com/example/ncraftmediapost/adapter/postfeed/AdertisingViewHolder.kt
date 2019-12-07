@@ -21,9 +21,10 @@ import kotlinx.android.synthetic.main.post_list_item.view.share_text
 
 
 class AdertisingViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapter, view) {
-    private var countLike: Int = 0     // счетчики
-    private var countChat: Int = 0
-    private var countShare: Int = 0
+    private var countLike: Int = 776    // счетчики
+    private var countChat: Int = 44
+    private var countShare: Int = 3343
+
 
     init {
         with(itemView) {
@@ -47,6 +48,7 @@ class AdertisingViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(ad
                     }
                 }
             }
+
 
             btn_image_chat.setOnClickListener {
                 //CHAT
@@ -76,6 +78,25 @@ class AdertisingViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(ad
             post_text.text = post.content
             wet_text.text = post.wet
             wet_res_text.text = post.resource
+            chat_text.text = countShare.toString()
+            share_text.text = countChat.toString()
+            like_text.text = countLike.toString()
+
+            if (countShare != 0) {
+                share_btn.setImageResource(R.drawable.ic_share_24dp)
+                share_text.setTextColor(Color.rgb(255, 0, 0))
+            }
+
+
+            if (countChat != 0) {
+                btn_image_chat.setImageResource(R.drawable.ic_chat_bubble_24dp)
+                chat_text.setTextColor(Color.rgb(255, 0, 0))
+            }
+
+            if (countLike != 0) {
+                btn_image_chat.setImageResource(R.drawable.ic_favorite_red_24dp)
+                chat_text.setTextColor(Color.rgb(255, 0, 0))
+            }
 
             if (post.likedByMe) {
 

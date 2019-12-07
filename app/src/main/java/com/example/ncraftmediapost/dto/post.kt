@@ -11,7 +11,9 @@ class Post(
     val author: String?=null,
     val content: String? = null,
     val location:Coordinates,  //координаты
-
+    var countLike:Int,
+    var countCommit:Int,
+    var countShre:Int,
     val wet:String?=null,
     val resource:String?=null,
     val created: String?=null, //время я

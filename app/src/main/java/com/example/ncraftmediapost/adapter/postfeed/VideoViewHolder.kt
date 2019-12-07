@@ -30,6 +30,7 @@ class VideoViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapter
     private var countShare: Int = 721
     private var lat = ""
     private var lon = ""
+
     init {
         with(itemView) {
             btn_image_like.setOnClickListener {
@@ -53,6 +54,8 @@ class VideoViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapter
                 }
             }
 
+
+
             btn_image_chat.setOnClickListener {
                 //CHAT
                 if (adapterPosition != RecyclerView.NO_POSITION)
@@ -73,28 +76,36 @@ class VideoViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapter
         }
     }
 
-
     override fun bind(post: Post) {
 
         with(itemView) {
             data_text.text = post.created
             author_text.text = post.author
             post_text.text = post.content
-            wet_text.text = post.wet
-            wet_res_text.text = post.resource
+            chat_text.text = countShare.toString()
+            share_text.text = countChat.toString()
+            like_text.text = countLike.toString()
+
+            if (countShare != 0) {
+                share_btn.setImageResource(R.drawable.ic_share_24dp)
+                share_text.setTextColor(Color.rgb(255, 0, 0))
+            }
+
+
+            if (countChat != 0) {
+                btn_image_chat.setImageResource(R.drawable.ic_chat_bubble_24dp)
+                chat_text.setTextColor(Color.rgb(255, 0, 0))
+            }
 
             if (post.likedByMe) {
 
                 btn_image_like.setImageResource(R.drawable.ic_favorite_red_24dp)
-                //  like_text.setTextColor(0xFF0000)
                 countLike++
-                like_text.text = countLike.toString()
-
+//                like_text.text = countLike.toString()
             } else {
                 btn_image_like.setImageResource(R.drawable.ic_favorite_inactive_24dp)
                 like_text.setTextColor(0x999)
 
             }
-        }
-    }
+        }}
 }
