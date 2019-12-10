@@ -101,11 +101,11 @@ class VideoViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapter
 
                 btn_image_like.setImageResource(R.drawable.ic_favorite_red_24dp)
                 countLike++
-//                like_text.text = countLike.toString()
             } else {
                 btn_image_like.setImageResource(R.drawable.ic_favorite_inactive_24dp)
                 like_text.setTextColor(0x999)
 
             }
-        }}
+        }
+    }
 }

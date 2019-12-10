@@ -54,14 +54,14 @@ class MainActivity : AppCompatActivity() {
     internal lateinit var mLocationRequest: LocationRequest
     private val REQUEST_PERMISSION_LOCATION = 10
 
-     lateinit var btnStartupdate: Button
+    lateinit var btnStartupdate: Button
     lateinit var btnStopUpdates: Button
     lateinit var txtLat: TextView
     lateinit var txtLong: TextView
     lateinit var txtTime: TextView
     private var lat = ""
-
     private var lon = ""
+
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,16 +94,16 @@ class MainActivity : AppCompatActivity() {
             ),
             Post(
 
-                4, "Netology", "Kotlin", Coordinates(0.00, 0.00),
+                4, "Netology", "Kotlin", Coordinates(00.00, 00.00),
                 555, 555, 6665,
                 "", "", "$date",
-                true, PostType.POST,meetup
+                true, PostType.POST
             ),
             Post(
                 5, "Netology", "First post in our network!",
                 Coordinates(0.00, 0.00),
                 777, 77, 8878875, "",
-                "", date.toString(), true, PostType.POST,meetup
+                "", date.toString(), true, PostType.POST
             ),
             Post(
                 6, "YouTube", "", Coordinates(0.00, 0.00),
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
             adapter = PostAdapter(list)
         }
 
-       mLocationRequest = LocationRequest()
+        mLocationRequest = LocationRequest()
 
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -127,29 +127,34 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-    fun stopClick(view: View){
-        Toast.makeText(this, "stop", Toast.LENGTH_SHORT).show()
-        btnStartupdate=findViewById(R.id.btn_start_upds)
-        btnStopUpdates=findViewById(R.id.btn_stop_upds)
-        txtTime=findViewById(R.id.time_text)
-        stoplocationUpdates()
-            txtTime.text = "Updates Stoped"
-            btnStartupdate.isEnabled = true
-            btnStopUpdates.isEnabled = false
+    fun v() {
+        Toast.makeText(this, "sttttttttop", Toast.LENGTH_SHORT).show()
 
     }
 
-    fun startClick(view: View){
+    fun stopClick(view: View) {
+        Toast.makeText(this, "stop", Toast.LENGTH_SHORT).show()
+        btnStartupdate = findViewById(R.id.btn_start_upds)
+        btnStopUpdates = findViewById(R.id.btn_stop_upds)
+        txtTime = findViewById(R.id.time_text)
+        stoplocationUpdates()
+        txtTime.text = "Updates Stoped"
+        btnStartupdate.isEnabled = true
+        btnStopUpdates.isEnabled = false
+
+    }
+
+    fun startClick(view: View) {
         Toast.makeText(this, "start", Toast.LENGTH_SHORT).show()
-    btnStartupdate=findViewById(R.id.btn_start_upds)
-    btnStopUpdates=findViewById(R.id.btn_stop_upds)
+        btnStartupdate = findViewById(R.id.btn_start_upds)
+        btnStopUpdates = findViewById(R.id.btn_stop_upds)
         if (checkPermissionForLocation(this)) {
             startLocationUpdates()
             btnStartupdate.isEnabled = false
-                            btnStopUpdates.isEnabled = true
+            btnStopUpdates.isEnabled = true
         }
     }
+
     private fun buildAlertMessageNoGps() {
 
         val builder = AlertDialog.Builder(this)
@@ -158,7 +163,8 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("Yes") { dialog, id ->
                 startActivityForResult(
                     android.content.Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                    , 11)
+                    , 11
+                )
             }
             .setNegativeButton("No") { dialog, id ->
                 dialog.cancel()
@@ -169,7 +175,7 @@ class MainActivity : AppCompatActivity() {
 
         mLocationRequest = LocationRequest()
 
-       btnStartupdate = findViewById(R.id.btn_start_upds)
+        btnStartupdate = findViewById(R.id.btn_start_upds)
         btnStopUpdates = findViewById(R.id.btn_stop_upds)
         txtLat = findViewById(R.id.latitude_text)
         txtLong = findViewById(R.id.longitude_text)
@@ -180,7 +186,7 @@ class MainActivity : AppCompatActivity() {
             buildAlertMessageNoGps()
         }
 
-         btnStartupdate.setOnClickListener {
+        btnStartupdate.setOnClickListener {
             if (checkPermissionForLocation(this)) {
                 startLocationUpdates()
                 btnStartupdate.isEnabled = false
@@ -216,13 +222,22 @@ class MainActivity : AppCompatActivity() {
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         // new Google API SDK v11 uses getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
 
 
             return
         }
-        mFusedLocationProviderClient!!.requestLocationUpdates(mLocationRequest, mLocationCallback,
-            Looper.myLooper())
+        mFusedLocationProviderClient!!.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
     }
 
     private val mLocationCallback = object : LocationCallback() {
@@ -245,7 +260,7 @@ class MainActivity : AppCompatActivity() {
         // You can now create a LatLng Object for use with maps
     }
 
-     fun stoplocationUpdates() {
+    fun stoplocationUpdates() {
         mFusedLocationProviderClient!!.removeLocationUpdates(mLocationCallback)
     }
 
@@ -266,12 +281,15 @@ class MainActivity : AppCompatActivity() {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
-                PackageManager.PERMISSION_GRANTED) {
+                PackageManager.PERMISSION_GRANTED
+            ) {
                 true
             } else {
                 // Show the permission request
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_PERMISSION_LOCATION)
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_PERMISSION_LOCATION
+                )
                 false
             }
         } else {
@@ -294,20 +312,11 @@ class MainActivity : AppCompatActivity() {
     fun locationByMe(view: View) {
         Toast.makeText(this, "Coordinates", Toast.LENGTH_SHORT).show()
 
-        val intent = Intent1().apply {
-            //       val lat = ""
-            //  val lon = ""
-            data = Uri.parse("geo:$lat,$lon")
-            action = Intent1.ACTION_VIEW
-//            putExtra(
-//                Intent.EXTRA_TEXT, """
-//                (${latitude_text.text})${longitude_text.text}
-//            """.trimIndent()
-//            )
-            type = "text/plain"
-        }
+        val intent = Intent1(
+            Intent1.ACTION_VIEW,
+            Uri.parse("{$lat}+{$lon}")
+        )
+
         startActivity(intent)
-
     }
-
 }
