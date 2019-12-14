@@ -33,8 +33,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.post_list_item.*
 import kotlinx.android.synthetic.main.post_list_item.view.*
 import kotlinx.android.synthetic.main.reply_list_item.*
-import kotlinx.android.synthetic.main.reply_list_item.latitude_text
-import kotlinx.android.synthetic.main.reply_list_item.view.*
 import kotlinx.android.synthetic.main.repost_list_item.*
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
@@ -42,7 +40,7 @@ import java.util.*
 import android.content.Intent as Intent1
 import kotlinx.android.synthetic.main.post_list_item.latitude_text as latitude_text1
 import kotlinx.android.synthetic.main.post_list_item.longitude_text as longitude_text1
-import kotlinx.android.synthetic.main.repost_list_item.longitude_text as longitude_text1
+import kotlinx.android.synthetic.main.repost_list_item.btn_image_like as btn_image_like1
 
 
 class MainActivity : AppCompatActivity() {
@@ -59,8 +57,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var txtLat: TextView
     lateinit var txtLong: TextView
     lateinit var txtTime: TextView
-    private var lat = ""
-    private var lon = ""
+  //  private var lat = ""
+   // private var lon = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
@@ -74,42 +72,34 @@ class MainActivity : AppCompatActivity() {
 
         val meetup = Post(
             1, "Netology", "First post in our network!", Coordinates(0.00, 0.00),
-            100, 200, 44455,
+            0, 0, 0,
             "", "", "$date", true
         )
 
         val list = listOf(
-            Post(
-                2, "Google",
-                "Кто-то ждет дождя а кто-то - солнца. Узнай вероятность дождя на завтра спомощю Google Поиска",
-                Coordinates(0.00, 0.00),
-                2222, 111, 444,
-                "Завтра опять будет дождь ?",
-                "Рекламная запись", "", true, PostType.ADVERTISING
-            ),
-            Post(
-                3, "YouTube", "", Coordinates(0.00, 0.00),
-                100, 133, 222,
-                "", "", "$date", true, PostType.VIDEO
-            ),
-            Post(
 
-                4, "Netology", "Kotlin", Coordinates(00.00, 00.00),
-                555, 555, 6665,
+            Post(    //post
+                2, "Netology", "Kotlin", Coordinates(55.66, 00.00),
+                1, 555, 599,
                 "", "", "$date",
                 true, PostType.POST
             ),
             Post(
-                5, "Netology", "First post in our network!",
-                Coordinates(0.00, 0.00),
-                777, 77, 8878875, "",
-                "", date.toString(), true, PostType.POST
+                3, "Netology", "First REPOST in our network!", Coordinates(1.11, 9.99),
+                10, 7, 5, "",
+                "", "$date", true, PostType.REPOST
             ),
             Post(
-                6, "YouTube", "", Coordinates(0.00, 0.00),
-                111, 88787, 5552,
-                "", "", date.toString(), true,
-                PostType.VIDEO
+                4, "Google",
+                "Кто-то ждет дождя а кто-то - солнца. Узнай вероятность дождя на завтра спомощю Google Поиска",
+                Coordinates(0.00, 0.00),
+                2222, 111, 444,
+                "Завтра опять будет дождь ?", "", "", true, PostType.ADVERTISING
+            ),
+            Post(
+                5, "YouTube", "", Coordinates(0.00, 0.00),
+                100, 133, 222,
+                "", "", "$date", true, PostType.VIDEO
             )
         )
 
@@ -124,13 +114,8 @@ class MainActivity : AppCompatActivity() {
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps()
         }
-
     }
 
-    fun v() {
-        Toast.makeText(this, "sttttttttop", Toast.LENGTH_SHORT).show()
-
-    }
 
     fun stopClick(view: View) {
         Toast.makeText(this, "stop", Toast.LENGTH_SHORT).show()
@@ -257,6 +242,7 @@ class MainActivity : AppCompatActivity() {
         time_text.text = "Updated at : " + sdf.format(date)
         latitude_text.text = "LAT: " + mLastLocation.latitude
         longitude_text.text = "LON: " + mLastLocation.longitude
+
         // You can now create a LatLng Object for use with maps
     }
 
@@ -309,14 +295,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(browserIntent)
     }
 
-    fun locationByMe(view: View) {
-        Toast.makeText(this, "Coordinates", Toast.LENGTH_SHORT).show()
-
-        val intent = Intent1(
-            Intent1.ACTION_VIEW,
-            Uri.parse("{$lat}+{$lon}")
-        )
-
-        startActivity(intent)
+      fun locationByMe(view: View) {
+        Toast.makeText(this, " Post $", Toast.LENGTH_SHORT).show()
+    val intent = Intent1(Intent1.ACTION_VIEW, Uri.parse("geo:$latitude_text,$longitude_text"))
+       startActivity(intent)
     }
 }

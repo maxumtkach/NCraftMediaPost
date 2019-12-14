@@ -10,14 +10,14 @@ class Post(
     val id: Long,
     val author: String?=null,
     val content: String? = null,
-    val location:Coordinates,  //координаты
+    val location:Coordinates?=null,  //координаты
     var countLike:Int,
-    var countCommit:Int,
-    var countShre:Int,
+    var countChat:Int,
+    var countCommmit:Int,
     val wet:String?=null,
     val resource:String?=null,
     val created: String?=null, //время я
-    var likedByMe: Boolean = false,
+    var likedByMe: Boolean ,
     val postType: PostType = PostType.POST,
     val source: Post? = null   //источник
 )

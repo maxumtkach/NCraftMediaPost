@@ -17,48 +17,50 @@ fun viewTypeToPostType(viewType: Int) = when (viewType) {
     VIEW_TYPE_POST -> PostType.POST
     VIEW_TYPE_REPOST -> PostType.REPOST
     VIEW_TYPE_REPLY -> PostType.REPLY
+    VIEW_TYPE_VIDEO -> PostType.VIDEO
+    VIEW_TYPE_ADVERTISING -> PostType.ADVERTISING
     else -> TODO()
 }
 
 class PostAdapter(val list: List<Post>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
-        when (viewType) {
-            VIEW_TYPE_POST -> PostViewHolder(
+        when (viewTypeToPostType(viewType)) {
+            PostType.POST -> PostViewHolder(
                 this, LayoutInflater.from(parent.context).inflate(
                     R.layout.post_list_item,
                     parent,
                     false
                 )
             )
-            VIEW_TYPE_REPOST -> VideoViewHolder(
+            PostType.REPOST -> RepostViewHolder(
                 this, LayoutInflater.from(parent.context).inflate(
                     R.layout.repost_list_item,
                     parent,
                     false
                 )
             )
-            VIEW_TYPE_REPLY -> RepostViewHolder(
+            PostType.REPLY -> ReplyViewHolder(
                 this, LayoutInflater.from(parent.context).inflate(
                     R.layout.reply_list_item,
                     parent,
                     false
                 )
             )
-            VIEW_TYPE_VIDEO -> ReplyViewHolder(
+            PostType.VIDEO -> VideoViewHolder(
                 this, LayoutInflater.from(parent.context).inflate(
                     R.layout.video_youtube_item,
                     parent,
                     false
                 )
             )
-            VIEW_TYPE_ADVERTISING -> AdertisingViewHolder(
+            PostType.ADVERTISING -> AdertisingViewHolder(
                 this, LayoutInflater.from(parent.context).inflate(
                     R.layout.advertising_list_item,
                     parent,
                     false
                 )
             )
-            else -> TODO()
+            //  else-> TODO()
         }
 
 
