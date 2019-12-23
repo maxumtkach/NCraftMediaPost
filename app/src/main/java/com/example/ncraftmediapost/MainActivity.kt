@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -20,30 +19,26 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ncraftmediapost.adapter.postfeed.PostAdapter
 import com.example.ncraftmediapost.dto.Coordinates
 import com.example.ncraftmediapost.dto.Post
 import com.example.ncraftmediapost.dto.PostType
 import com.google.android.gms.location.*
+import io.ktor.client.request.get
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.post_list_item.*
-import kotlinx.android.synthetic.main.post_list_item.view.*
 import kotlinx.android.synthetic.main.reply_list_item.*
-import kotlinx.android.synthetic.main.repost_list_item.*
+import kotlinx.coroutines.*
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 import android.content.Intent as Intent1
-import kotlinx.android.synthetic.main.post_list_item.latitude_text as latitude_text1
-import kotlinx.android.synthetic.main.post_list_item.longitude_text as longitude_text1
-import kotlinx.android.synthetic.main.repost_list_item.btn_image_like as btn_image_like1
+import kotlinx.android.synthetic.main.reply_list_item.latitude_text as latitude_text1
+import kotlinx.android.synthetic.main.reply_list_item.longitude_text as longitude_text1
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),CoroutineScope by MainScope(){
 
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     private val INTERVAL: Long = 2000
@@ -57,8 +52,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var txtLat: TextView
     lateinit var txtLong: TextView
     lateinit var txtTime: TextView
-  //  private var lat = ""
-   // private var lon = ""
+    //  private var lat = ""
+    // private var lon = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
@@ -69,43 +64,43 @@ class MainActivity : AppCompatActivity() {
         val timeValue = System.currentTimeMillis()//timespam
         val stamp = Timestamp(timeValue)
         val date: Date = Date(stamp.getTime())
-
-        val meetup = Post(
-            1, "Netology", "First post in our network!", Coordinates(0.00, 0.00),
-            0, 0, 0,
-            "", "", "$date", true
-        )
-
-        val list = listOf(
-
-            Post(    //post
-                2, "Netology", "Kotlin", Coordinates(55.66, 00.00),
-                1, 555, 599,
-                "", "", "$date",
-                true, PostType.POST
-            ),
-            Post(
-                3, "Netology", "First REPOST in our network!", Coordinates(1.11, 9.99),
-                10, 7, 5, "",
-                "", "$date", true, PostType.REPOST
-            ),
-            Post(
-                4, "Google",
-                "Кто-то ждет дождя а кто-то - солнца. Узнай вероятность дождя на завтра спомощю Google Поиска",
-                Coordinates(0.00, 0.00),
-                2222, 111, 444,
-                "Завтра опять будет дождь ?", "", "", true, PostType.ADVERTISING
-            ),
-            Post(
-                5, "YouTube", "", Coordinates(0.00, 0.00),
-                100, 133, 222,
-                "", "", "$date", true, PostType.VIDEO
-            )
-        )
-
+//
+//        val meetup = Post(
+//            1, "Netology", "First post in our network!", Coordinates(0.00, 0.00),
+//            0, 0, 0,
+//            "", "", "$date", true
+//        )
+//
+//        val list = listOf(
+//
+//            Post(    //post
+//                2, "Netology", "Kotlin", Coordinates(55.66, 00.00),
+//                1, 555, 599,
+//                "", "", "$date",
+//                true, PostType.POST
+//            ),
+//            Post(
+//                3, "Netology", "First REPOST in our network!", Coordinates(1.11, 9.99),
+//                10, 7, 5, "",
+//                "", "$date", true, PostType.REPOST
+//            ),
+//            Post(
+//                4, "Google",
+//                "Кто-то ждет дождя а кто-то - солнца. Узнай вероятность дождя на завтра спомощю Google Поиска",
+//                Coordinates(0.00, 0.00),
+//                2222, 111, 444,
+//                "Завтра опять будет дождь ?", "", "", true, PostType.ADVERTISING
+//            ),
+//            Post(
+//                5, "YouTube", "", Coordinates(0.00, 0.00),
+//                100, 133, 222,
+//                "", "", "$date", true, PostType.VIDEO
+//            )
+//        )
+       fetchData()
         with(container) {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = PostAdapter(list)
+            adapter = PostAdapter(listOf())
         }
 
         mLocationRequest = LocationRequest()
@@ -116,7 +111,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun fetchData()=launch{
+        val list= withContext(Dispatchers.IO){
+            Api.client.get<List<Post>>(Api.url)
 
+        }
+        Toast.makeText(this@MainActivity, "stop ${list.size}", Toast.LENGTH_SHORT).show()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
+    }
     fun stopClick(view: View) {
         Toast.makeText(this, "stop", Toast.LENGTH_SHORT).show()
         btnStartupdate = findViewById(R.id.btn_start_upds)
@@ -295,9 +302,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(browserIntent)
     }
 
-      fun locationByMe(view: View) {
+    fun locationByMe(view: View) {
         Toast.makeText(this, " Post $", Toast.LENGTH_SHORT).show()
-    val intent = Intent1(Intent1.ACTION_VIEW, Uri.parse("geo:$latitude_text,$longitude_text"))
-       startActivity(intent)
+        val intent = Intent1(Intent1.ACTION_VIEW, Uri.parse("geo:$latitude_text,$longitude_text"))
+        startActivity(intent)
     }
 }
